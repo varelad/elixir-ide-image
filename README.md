@@ -2,7 +2,7 @@
 
 Construye y publica la imagen del entorno de Elixir que usan los codespaces de
 **Programación Lógica y Funcional (SCC-1019)**. Los alumnos no abren este repo:
-usan la plantilla [`elixir-ide-template`](https://github.com/TU-USUARIO/elixir-ide-template), que
+usan la plantilla [`elixir-ide-template`](https://github.com/varelad/elixir-ide-template), que
 sólo descarga la imagen publicada aquí.
 
 ## Qué trae la imagen
@@ -16,6 +16,9 @@ sólo descarga la imagen publicada aquí.
 | PLT base de Dialyzer | `mix dialyzer` tarda segundos, no minutos, la primera vez |
 | Extensión ElixirLS | Se instala sola en VS Code; Dialyzer del editor apagado |
 
+La imagen se publica para **amd64** (Codespaces, PCs con Intel o AMD) y **arm64**
+(Mac con Apple Silicon). Docker descarga sola la que corresponde a cada máquina.
+
 Las versiones de Livebook, Hex y del PLT quedan congeladas en el momento de
 construir la imagen: una etiqueta = un entorno idéntico para todos.
 
@@ -28,7 +31,9 @@ construir la imagen: una etiqueta = un entorno idéntico para todos.
 3. Verifica que la etiqueta coincida con la de
    `elixir-ide-template/.devcontainer/devcontainer.json`.
 
-El paso final del workflow comprueba la versión de Elixir, que Livebook esté
+El workflow construye cada arquitectura en su propio runner (el de arm64 es
+gratuito sólo si este repo es público), publica `2026b-amd64` y `2026b-arm64`,
+y al final las une bajo `2026b`. Cada construcción comprueba la arquitectura, la versión de Elixir, que Livebook esté
 instalado y que exista el PLT base.
 
 ## Reglas de etiquetas
