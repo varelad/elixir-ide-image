@@ -1,0 +1,41 @@
+name: Construir imagen
+
+on:
+  workflow_dispatch:
+    inputs:
+      etiqueta:
+        description: "Etiqueta de la imagen (una por semestre; no reutilizar)"
+        required: true
+        default: "2026b"
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # ghcr.io exige minúsculas en el nombre de la imagen
+      - name: Nombre de la imagen
+        run: echo "IMAGEN=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/elixir-ide-image" >> "$GITHUB_ENV"
+
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Construye con la CLI de dev containers: la configuración de VS Code
+      # (extensión y ajustes) viaja dentro de la imagen como metadatos.
+      - uses: devcontainers/ci@v0.3
+        with:
+          imageName: ${{ env.IMAGEN }}
+          imageTag: ${{ inputs.etiqueta }}
+          push: always
+          runCmd: |
+            elixir --version
+            test -x /root/.mix/escripts/livebook
+            ls -lh /root/.mix/dialyxir_*.plt

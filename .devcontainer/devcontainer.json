@@ -1,0 +1,12 @@
+{
+  "name": "Elixir IDE",
+  "build": { "dockerfile": "Dockerfile" },
+  "customizations": {
+    "vscode": {
+      "extensions": ["JakeBecker.elixir-ls"],
+      "settings": {
+        "elixirLS.dialyzerEnabled": false
+      }
+    }
+  }
+}
