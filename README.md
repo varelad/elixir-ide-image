@@ -1,6 +1,6 @@
 # elixir-ide-image
 
-Construye y publica la imagen del entorno de Elixir que usan los codespaces de
+Construye y publica la imagen del entorno de Elixir y Prolog que usan los codespaces de
 **Programación Lógica y Funcional (SCC-1019)**. Los alumnos no abren este repo:
 usan la plantilla [`elixir-ide-template`](https://github.com/varelad/elixir-ide-template), que
 sólo descarga la imagen publicada aquí.
@@ -13,8 +13,10 @@ sólo descarga la imagen publicada aquí.
 | Hex y Rebar | `mix new`, `mix deps.get` y `mix test` funcionan desde el primer minuto |
 | Livebook (escript) | Cuadernos interactivos |
 | git, inotify-tools | Utilerías del sistema |
+| SWI-Prolog (`swi-prolog-nox` de Debian) | Unidades 3 y 4: `swipl` en la terminal, sin interfaz gráfica |
 | PLT base de Dialyzer | `mix dialyzer` tarda segundos, no minutos, la primera vez |
 | Extensión ElixirLS | Se instala sola en VS Code; Dialyzer del editor apagado |
+| Extensión New-VSC-Prolog | Colores, errores y consulta de archivos `.pl`; los `.pl` se abren como Prolog y no como Perl |
 
 La imagen se publica para **amd64** (Codespaces, PCs con Intel o AMD) y **arm64**
 (Mac con Apple Silicon). Docker descarga sola la que corresponde a cada máquina.
@@ -33,8 +35,8 @@ construir la imagen: una etiqueta = un entorno idéntico para todos.
 
 El workflow construye cada arquitectura en su propio runner (el de arm64 es
 gratuito sólo si este repo es público), publica `2026b-amd64` y `2026b-arm64`,
-y al final las une bajo `2026b`. Cada construcción comprueba la arquitectura, la versión de Elixir, que Livebook esté
-instalado y que exista el PLT base.
+y al final las une bajo `2026b`. Cada construcción comprueba la arquitectura, la versión de Elixir, que SWI-Prolog
+responda, que Livebook esté instalado y que exista el PLT base.
 
 ## Reglas de etiquetas
 
@@ -42,10 +44,19 @@ instalado y que exista el PLT base.
 - **No reconstruyas una etiqueta ya en uso.** Si hay que corregir algo a mitad
   de semestre, publica una nueva (`2026b.1`) y actualiza la plantilla.
 
+## Historial de etiquetas
+
+| Etiqueta | Cambio |
+|---|---|
+| `2026b` | Elixir 1.20, Livebook, PLT de Dialyzer, ElixirLS (unidades 1 y 2) |
+| `2026b.1` | Agrega SWI-Prolog y la extensión New-VSC-Prolog (unidades 3 y 4) |
+
 ## Antes de la primera clase
 
 - [ ] Crear un codespace desde la plantilla y medir cuánto tarda en abrir.
 - [ ] `elixir --version` muestra 1.20.
+- [ ] `swipl --version` responde, y `swipl archivo.pl` carga un archivo y deja consultar.
+- [ ] Al abrir un `.pl`, VS Code lo marca como Prolog (abajo a la derecha), no como Perl.
 - [ ] `livebook server` abre en el navegador y ejecuta una celda.
 - [ ] En un proyecto nuevo, ElixirLS termina de arrancar y marca errores.
 - [ ] Con `dialyxir` agregado, `mix dialyzer` no reconstruye el PLT base.

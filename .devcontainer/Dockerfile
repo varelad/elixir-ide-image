@@ -3,9 +3,11 @@
 
 FROM elixir:1.20
 
-# Utilerías del sistema
+# Utilerías del sistema y SWI-Prolog (unidades 3 y 4).
+# swi-prolog-nox es la versión sin interfaz gráfica: en Codespaces no hay ventanas,
+# así que gtrace no aplica; trace/0 funciona en la terminal.
 RUN apt-get update \
- && apt-get install -y --no-install-recommends git inotify-tools \
+ && apt-get install -y --no-install-recommends git inotify-tools swi-prolog-nox \
  && rm -rf /var/lib/apt/lists/*
 
 # Hex, Rebar y Livebook

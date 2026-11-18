@@ -1,11 +1,12 @@
 {
-  "name": "Elixir IDE",
+  "name": "Elixir y Prolog IDE",
   "build": { "dockerfile": "Dockerfile" },
   "customizations": {
     "vscode": {
-      "extensions": ["JakeBecker.elixir-ls"],
+      "extensions": ["JakeBecker.elixir-ls", "AmauryRabouan.new-vsc-prolog"],
       "settings": {
-        "elixirLS.dialyzerEnabled": false
+        "elixirLS.dialyzerEnabled": false,
+        "files.associations": { "*.pl": "prolog" }
       }
     }
   }

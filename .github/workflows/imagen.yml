@@ -6,7 +6,7 @@ on:
       etiqueta:
         description: "Etiqueta de la imagen (una por semestre; no reutilizar)"
         required: true
-        default: "2026b"
+        default: "2026b.1"
 
 permissions:
   contents: read
@@ -47,6 +47,8 @@ jobs:
           runCmd: |
             uname -m
             elixir --version
+            swipl --version
+            swipl -g "X is 2 + 3, X =:= 5" -t halt
             test -x /root/.mix/escripts/livebook
             ls -lh /root/.mix/dialyxir_*.plt
 
